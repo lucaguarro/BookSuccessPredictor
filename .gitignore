@@ -1,0 +1,9 @@
+datasets
+saved_models
+misc
+*.ini
+.ipynb_checkpoints
+__pycache__
+/DataAcquisition/guarro_goodreads/scraper/Screenshots/*
+/DataAcquisition/guarro_goodreads/scraper/Log/*
+/DataAcquisition/guarro_goodreads/scraper/vpns.json
