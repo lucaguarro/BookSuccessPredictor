@@ -95,12 +95,12 @@ class BertForMultipleSequenceClassification(BertPreTrainedModel):
         )
 
 class DistilBERTForMultipleSequenceClassification(DistilBertPreTrainedModel):
-    def __init__(self, config, num_labels1 = 2, num_labels2 = 4):
+    def __init__(self, config, num_labels1 = 2, num_labels2 = 8):
         super().__init__(config)
         self.num_labels1 = num_labels1
         self.num_labels2 = num_labels2
         print(self.num_labels1, self.num_labels2)
-        self.alpha = .5
+        self.alpha = config.alpha
         self.config = config
 
         self.distilbert = DistilBertModel(config)
