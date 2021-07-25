@@ -1,0 +1,12 @@
+The directories in this folder can be viewed in a sort of hierarchy in which each one is derived from one or more of the previous folders
+
+/raw_text This is the raw text as it was provided by maharjan
+
+/raw_preprocessed This is still a textual dataset in which the original dataset was preprocessed via trimming and Named-Entity-Recognition on the characters
+
+/already_tokenized Here contains the already tokenized datasets from the preprocessed input via the transformer tokenizers, Bert, Electra, Roberta, etc. etc.
+
+/Pooled_Output This uses the tokenized dataset, feeds it through the corresponding transformer architecture (with a classification head) and extracts the pooled outputs of each sample. In addition there is also the average of all the samples coming from each respective book.
+
+/MultiModal This is the dataset to be used by the Genre-Aware Attention Model which used the average pooled outputs in addition to other modalities derived directly from the preprocessed textual data.
+

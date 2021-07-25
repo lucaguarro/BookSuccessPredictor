@@ -1,4 +1,15 @@
-datasets
+datasets/bookcorpus
+datasets/goodreads_maharjan_super/raw_preprocessed/goodreads_maharjan_trimmed
+datasets/goodreads_maharjan_super/raw_text
+datasets/goodreads_maharjan_super/raw_preprocessed/trimmed_and_nered/csv
+datasets/goodreads_maharjan_super/raw_preprocessed/trimmed_and_nered/txt
+datasets/goodreads_maharjan_super/raw_preprocessed/trimmed_and_nered/*.txt
+datasets/goodreads_maharjan_super/MultiModal/dataset_loader/features/resources
+datasets/goodreads_maharjan_super/Pooled_Output
+datasets/project_gutenberg/All65kBooks
+datasets/practice_dataset
+*.lock
+*.pkl
 saved_models
 misc
 *.ini
