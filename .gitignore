@@ -18,3 +18,4 @@ __pycache__
 /DataAcquisition/guarro_goodreads/scraper/Screenshots/*
 /DataAcquisition/guarro_goodreads/scraper/Log/*
 /DataAcquisition/guarro_goodreads/scraper/vpns.json
+*.db

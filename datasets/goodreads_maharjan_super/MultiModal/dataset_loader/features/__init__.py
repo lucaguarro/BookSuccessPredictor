@@ -13,6 +13,7 @@ from . import sentiments
 from . import writing_density
 from . import dumped_features
 from . import book2vec
+from . import bert_features
 # from manage import app
 
 
@@ -43,6 +44,9 @@ def get_feature(f_name):
 
     """
     features_dic = dict(
+        # bert features
+        bert_features=bert_features.BertFeatures(),
+
         unigram=lexical.NGramTfidfVectorizer(ngram_range=(1, 1), preprocessor=preprocess,tokenizer=nltk.word_tokenize, analyzer="word",
                                              lowercase=True, min_df=2),
         bigram=lexical.NGramTfidfVectorizer(ngram_range=(2, 2),  preprocessor=preprocess,tokenizer=nltk.word_tokenize, analyzer="word",

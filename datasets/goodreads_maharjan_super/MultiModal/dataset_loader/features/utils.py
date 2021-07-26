@@ -23,6 +23,7 @@ def re_order(order_lst, X, Y):
     return X_reordered, np.array(Y_reordered)
 
 def fetch_features_vectorized(data_dir, features, corpus):
+    # The ordering of all features will be based on these array of book_id's
     train_books = [corpus.X_train[i].book_id for i in range(len(corpus.X_train))]
     val_books = [corpus.X_val[i].book_id for i in range(len(corpus.X_val))]
     test_books = [corpus.X_test[i].book_id for i in range(len(corpus.X_test))]
@@ -56,58 +57,17 @@ def fetch_features_vectorized(data_dir, features, corpus):
             Y_train, Y_val, Y_test = corpus.Y_train, corpus.Y_val, corpus.Y_test
 
         else:
-            if(feature == "BertFeatures"):
-                from datasets import DatasetDict, Dataset
-                import pickle
+            print(feature)
+            feature_name, vectorizer = create_feature(feature) # , train_books, val_books, test_books
 
-                # r"G:\My Drive\Thesis\UsefulRelatedProjects\curr_sota\genre_aware_attention\code\cached_features\avg_pld_outs_hf_ds.pkl"
-                with open("../cached_features/avg_pld_outs_hf_ds.pkl", "rb") as input_file:
-                    avg_pld_outs_hf_ds = pickle.load(input_file)
+            X_train, Y_train, X_val, Y_val, X_test, Y_test = extract_features_and_labels_by_split(feature, vectorizer, corpus, {'train_books': train_books, 'val_books': val_books, 'test_books': test_books})
 
-                X_train, X_val, X_test = avg_pld_outs_hf_ds['train']['meaned_pooled_output'], avg_pld_outs_hf_ds['validation']['meaned_pooled_output'], avg_pld_outs_hf_ds['test']['meaned_pooled_output']
-                Y_train, Y_val, Y_test = avg_pld_outs_hf_ds['train']['success_label'], avg_pld_outs_hf_ds['validation']['success_label'], avg_pld_outs_hf_ds['test']['success_label']
-
-                def get_permutations(ref_order, cur_order):
-                    ref_order_mapping = {}
-                    for i in range(len(ref_order)):
-                        ref_order_mapping[ref_order[i]] = i
-
-                    permutations = []
-                    for i in range(len(cur_order)):
-                        permutations.append(ref_order_mapping[cur_order[i]])
-                    
-                    return permutations
-
-                def reorder_list(curlist, permutations):
-                    new_list = [0] * len(curlist)
-                    for i in range(len(curlist)):
-                        new_list[permutations[i]] = curlist[i]
-                    return new_list
-
-                train_perms = get_permutations(train_books, avg_pld_outs_hf_ds['train']['book_title'])
-                val_perms = get_permutations(val_books, avg_pld_outs_hf_ds['validation']['book_title'])
-                test_perms = get_permutations(test_books, avg_pld_outs_hf_ds['test']['book_title'])
-
-                X_train, Y_train = reorder_list(X_train, train_perms), reorder_list(Y_train, train_perms)
-                X_val, Y_val = reorder_list(X_val, val_perms), reorder_list(Y_val, val_perms)
-                X_test, Y_test = reorder_list(X_test, test_perms), reorder_list(Y_test, test_perms)
-
-                joblib.dump((X_train, X_val, X_test), target_file)
-                joblib.dump((Y_train, Y_val, Y_test), target_labels_file)
-                joblib.dump((train_books, val_books, test_books), target_index_file)
-            else:
-                print(feature)
-                feature_name, vectorizer = create_feature(feature) # , train_books, val_books, test_books
-
-                X_train = vectorizer.fit_transform(corpus.X_train)
-                X_val = vectorizer.transform(corpus.X_val)
-                X_test = vectorizer.transform(corpus.X_test)
-                joblib.dump((X_train, X_val, X_test), target_file)
-                joblib.dump((corpus.Y_train, corpus.Y_val, corpus.Y_test), target_labels_file)
-                joblib.dump(([book.book_id for book in corpus.X_train], [book.book_id for book in corpus.X_val], [book.book_id for book in corpus.X_test]),
-                            target_index_file)
-                joblib.dump(vectorizer, target_model_file)
-                Y_train, Y_val, Y_test = corpus.Y_train, corpus.Y_val, corpus.Y_test
+            joblib.dump((X_train, X_val, X_test), target_file)
+            joblib.dump((Y_train, Y_val, Y_test), target_labels_file)
+            joblib.dump(([book.book_id for book in corpus.X_train], [book.book_id for book in corpus.X_val], [book.book_id for book in corpus.X_test]),
+                        target_index_file)
+            joblib.dump(vectorizer, target_model_file)
+            # Y_train, Y_val, Y_test = corpus.Y_train, corpus.Y_val, corpus.Y_test
         return X_train, Y_train, X_val, Y_val, X_test, Y_test
 
     if isinstance(features, list):
@@ -145,6 +105,63 @@ def fetch_features_vectorized(data_dir, features, corpus):
         return X_trains, Y_trains[0], X_vals, Y_vals[0], X_tests, Y_tests[0]
     else:
         return extract_feature(features)
+
+
+def extract_features_and_labels_by_split(feature, vectorizer, corpus, book_ids_order):
+
+    if feature == 'bert_features':
+        X_train, Y_train, X_val, Y_val, X_test, Y_test = vectorizer.get_features_and_labels(book_ids_order)
+    else:
+        X_train = vectorizer.fit_transform(corpus.X_train)
+        X_val = vectorizer.transform(corpus.X_val)
+        X_test = vectorizer.transform(corpus.X_test)
+
+        Y_train, Y_val, Y_test = corpus.Y_train, corpus.Y_val, corpus.Y_test
+
+    return X_train, Y_train, X_val, Y_val, X_test, Y_test
+
+    # if(feature == "BertFeatures"):
+    #     from datasets import DatasetDict, Dataset
+    #     import pickle
+
+    #     # r"G:\My Drive\Thesis\UsefulRelatedProjects\curr_sota\genre_aware_attention\code\cached_features\avg_pld_outs_hf_ds.pkl"
+    #     with open("../cached_features/avg_pld_outs_hf_ds.pkl", "rb") as input_file:
+    #         avg_pld_outs_hf_ds = pickle.load(input_file)
+
+    #     X_train, X_val, X_test = avg_pld_outs_hf_ds['train']['meaned_pooled_output'], avg_pld_outs_hf_ds['validation']['meaned_pooled_output'], avg_pld_outs_hf_ds['test']['meaned_pooled_output']
+    #     Y_train, Y_val, Y_test = avg_pld_outs_hf_ds['train']['success_label'], avg_pld_outs_hf_ds['validation']['success_label'], avg_pld_outs_hf_ds['test']['success_label']
+
+    #     def get_permutations(ref_order, cur_order):
+    #         ref_order_mapping = {}
+    #         for i in range(len(ref_order)):
+    #             ref_order_mapping[ref_order[i]] = i
+
+    #         permutations = []
+    #         for i in range(len(cur_order)):
+    #             permutations.append(ref_order_mapping[cur_order[i]])
+            
+    #         return permutations
+
+    #     def reorder_list(curlist, permutations):
+    #         new_list = [0] * len(curlist)
+    #         for i in range(len(curlist)):
+    #             new_list[permutations[i]] = curlist[i]
+    #         return new_list
+
+    #     train_perms = get_permutations(train_books, avg_pld_outs_hf_ds['train']['book_title'])
+    #     val_perms = get_permutations(val_books, avg_pld_outs_hf_ds['validation']['book_title'])
+    #     test_perms = get_permutations(test_books, avg_pld_outs_hf_ds['test']['book_title'])
+
+    #     X_train, Y_train = reorder_list(X_train, train_perms), reorder_list(Y_train, train_perms)
+    #     X_val, Y_val = reorder_list(X_val, val_perms), reorder_list(Y_val, val_perms)
+    #     X_test, Y_test = reorder_list(X_test, test_perms), reorder_list(Y_test, test_perms)
+
+    #     joblib.dump((X_train, X_val, X_test), target_file)
+    #     joblib.dump((Y_train, Y_val, Y_test), target_labels_file)
+    #     joblib.dump((train_books, val_books, test_books), target_index_file)
+    # else:
+
+
 
 
 # def test_fetch_features_vectorizer(data_dir, features=['writing_density', 'readability']):
