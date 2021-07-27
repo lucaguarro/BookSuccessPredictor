@@ -1,6 +1,6 @@
 import os
-from features.phonetic import generate_phonetic_representation
-from features.phonetic import get_stress_markers
+# from features.phonetic import generate_phonetic_representation
+# from features.phonetic import get_stress_markers
 from .loader import extract, pos_data, load_concepts, read_book
 from nltk import sent_tokenize
 import itertools
@@ -96,14 +96,14 @@ class Book(object):
             self._polarity = self._polarity[:self.size]
             self._concepts = " ".join(list(itertools.chain.from_iterable(self._concepts_ls[:self.size])))
 
-    def phonetic_representation(self):
-        self._phonetics, self._phonetic_sent_words = generate_phonetic_representation(self.content)
+    # def phonetic_representation(self):
+    #     self._phonetics, self._phonetic_sent_words = generate_phonetic_representation(self.content)
 
-    def stress_represenation(self):
-        self._stress_markers = get_stress_markers(self.content, two_classes_only=True)
+    # def stress_represenation(self):
+    #     self._stress_markers = get_stress_markers(self.content, two_classes_only=True)
 
-    def all_stress_represenation(self):
-        self._all_stress_markers = get_stress_markers(self.content, two_classes_only=False)
+    # def all_stress_represenation(self):
+    #     self._all_stress_markers = get_stress_markers(self.content, two_classes_only=False)
 
     def of_size(self, size):
         content = ' '.join(sent_tokenize(self.content)[:size])

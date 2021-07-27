@@ -28,6 +28,7 @@ def fetch_features_vectorized(data_dir, features, corpus):
     val_books = [corpus.X_val[i].book_id for i in range(len(corpus.X_val))]
     test_books = [corpus.X_test[i].book_id for i in range(len(corpus.X_test))]
     def extract_feature(feature, train_books, val_books, test_books):
+        print("extracting feature:", feature)
         target_file = os.path.join(data_dir, feature, feature + '.pkl')
         target_index_file = os.path.join(data_dir, feature, feature + '_index.pkl')
         target_labels_file = os.path.join(data_dir, feature, feature + '_labels.pkl')

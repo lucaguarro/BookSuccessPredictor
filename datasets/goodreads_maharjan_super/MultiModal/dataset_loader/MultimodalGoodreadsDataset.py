@@ -3,6 +3,7 @@ from readers.goodreads import GoodreadsReader
 from readers.corpus import Corpus
 from features.utils import fetch_features_vectorized
 import numpy as np
+import os
 
 def label_extractor(book_data):
     return book_data.success
@@ -21,14 +22,18 @@ class MultimodalGoodreadsDataset():
         test_genres = self.one_hot([corpus.X_test[i].genre for i in range(len(corpus.X_test))])
         return train_genres, val_genres, test_genres
 
-    def __init__(self):
+    def __init__(self, dataset_base_dir, cached_features_dir):
         features = ["char_5_gram", "bert_features"]
-        reader = GoodreadsReader(r'G:\My Drive\Thesis\UsefulRelatedProjects\curr_sota\data\raw_text')
+
+        # G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\raw_preprocessed\goodreads_maharjan_trimmed
+        # r'G:\My Drive\Thesis\UsefulRelatedProjects\curr_sota\data\raw_text'
+        reader = GoodreadsReader(dataset_base_dir)
         
-        corpus = Corpus.from_splitfile(reader, r'G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\raw_text\train_test_val_split_goodreads.yaml', label_extractor)
+        # r'G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\raw_text\train_test_val_split_goodreads.yaml'
+        corpus = Corpus.from_splitfile(reader, os.path.join(dataset_base_dir, r'train_test_val_split_goodreads.yaml'), label_extractor)
 
         train_genres, val_genres, test_genres = self.get_genre_info(corpus)
-        X_train, Y_train, X_val, Y_val, X_test, Y_test = fetch_features_vectorized(r'G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\MultiModal\dataset_loader\cached_features', features, corpus)
+        X_train, Y_train, X_val, Y_val, X_test, Y_test = fetch_features_vectorized(cached_features_dir, features, corpus)
 
         assert X_train.shape[0] == len(Y_train) == len(train_genres)
         assert X_val.shape[0] == len(Y_val) == len(val_genres)

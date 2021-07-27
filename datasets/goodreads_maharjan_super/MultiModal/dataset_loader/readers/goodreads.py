@@ -7,6 +7,7 @@ import pandas as pd
 
 
 class GoodreadsReader(object):
+
     def __init__(self, dirname, genres=None, meta_file=None): # app.BOOK_META_INFO
         self.dirname = dirname
         if genres is not None:
@@ -22,7 +23,8 @@ class GoodreadsReader(object):
             for category in ['failure', 'success']:
                 for fid in os.listdir(os.path.join(self.dirname, genre, category)):
                     fname = os.path.join(self.dirname, genre, category, fid)
-                    if fid.startswith('.DS_Store') or not os.path.isfile(fname):
+
+                    if fid.startswith('.DS_Store') or not os.path.isfile(fname) or not fid.endswith('.txt'):
                         continue
                     if category.startswith("failure"):
                         success = 0
@@ -30,16 +32,16 @@ class GoodreadsReader(object):
                         success = 1
                     # avg_rating = self.book_df[self.book_df['FILENAME'] == fid]['AVG_RATING_2016'].values[0]
 
-                    sentic_file = os.path.join(self.dirname, genre, 'sentic',
-                                               fid.replace('.txt', '_st_parser.txt.json'))  # sentic  st_parser
-                    if not os.path.exists(sentic_file):
-                        raise OSError("Sentic file does not exit: {}".format(sentic_file))
+                    # sentic_file = os.path.join(self.dirname, genre, 'sentic',
+                    #                            fid.replace('.txt', '_st_parser.txt.json'))  # sentic  st_parser
+                    # if not os.path.exists(sentic_file):
+                    #     raise OSError("Sentic file does not exit: {}".format(sentic_file))
 
-                    stanford_parse_file = os.path.join(self.dirname, genre, 'st_parser',
-                                                       fid.replace('.txt', '_st_parser.txt'))
-                    if not os.path.exists(stanford_parse_file):
-                        raise OSError("Stanford parse file does not exit: {}".format(stanford_parse_file))
+                    # stanford_parse_file = os.path.join(self.dirname, genre, 'st_parser',
+                    #                                    fid.replace('.txt', '_st_parser.txt'))
+                    # if not os.path.exists(stanford_parse_file):
+                    #     raise OSError("Stanford parse file does not exit: {}".format(stanford_parse_file))
 
                     yield Book(book_path=fname, book_id=fid, genre=genre, success=success,
-                               avg_rating=-1, sentic_file=sentic_file, # avg_rating = round(avg_rating, 3)
-                               stanford_parse_file=stanford_parse_file)
+                               avg_rating=-1, sentic_file=None, # avg_rating = round(avg_rating, 3)
+                               stanford_parse_file=None)

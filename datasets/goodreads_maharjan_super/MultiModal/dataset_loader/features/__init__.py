@@ -7,12 +7,12 @@ from sklearn.preprocessing import StandardScaler
 from . import lexical
 from . import syntactic
 from . import word_embeddings
-from . import phonetic
+# from . import phonetic
 # from . import readability
 from . import sentiments
 from . import writing_density
 from . import dumped_features
-from . import book2vec
+# from . import book2vec
 from . import bert_features
 # from manage import app
 
@@ -124,35 +124,35 @@ def get_feature(f_name):
                                                             model_name=None), # app.GUTENBERG_EMB
 
 
-        #book2Vec dmc', 'dbow', 'dmm', 'dbow_dmm', 'dbow_dmc'
+        # #book2Vec dmc', 'dbow', 'dmm', 'dbow_dmm', 'dbow_dmc'
 
-        book2vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK2VEC
-        book2vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK2VEC
-        book2vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK2VEC
-        book2vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK2VEC
-        book2vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK2VEC
+        # book2vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK2VEC
+        # book2vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK2VEC
+        # book2vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK2VEC
+        # book2vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK2VEC
+        # book2vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK2VEC
 
-        #book1002vec
-        book10002vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK10002VEC
-        book10002vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK10002VEC
-        book10002vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK10002VEC
-        book10002vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK10002VEC
-        book10002vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK10002VEC
+        # #book1002vec
+        # book10002vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK10002VEC
+        # book10002vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK10002VEC
+        # book10002vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK10002VEC
+        # book10002vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK10002VEC
+        # book10002vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK10002VEC
 
 
-        # phonetics
-        phonetic=phonetic.PhoneticCharNgramsVectorizer(ngram_range=(3, 3), analyzer='char', min_df=2, lowercase=False),
+        # # phonetics
+        # phonetic=phonetic.PhoneticCharNgramsVectorizer(ngram_range=(3, 3), analyzer='char', min_df=2, lowercase=False),
 
-        phonetic_scores=phonetic.PhonemeGroupBasedFeatures(),
+        # phonetic_scores=phonetic.PhonemeGroupBasedFeatures(),
 
         # sentiWordNet
         swn = sentiments.SentiWordNetFeature(),
         swn_batch = Pipeline([('sent_avb',sentiments.SentimentsBatch(batch_size=50)),('vec', DictVectorizer(sparse=False))]),
 
 
-        #stress patterns
-        stress_ngrams=phonetic.StressNgramsVectorizer(ngram_range=(3, 3), min_df=2),
-        stress_scores=phonetic.StressFeatures(),
+        # #stress patterns
+        # stress_ngrams=phonetic.StressNgramsVectorizer(ngram_range=(3, 3), min_df=2),
+        # stress_scores=phonetic.StressFeatures(),
 
         ##visual features
 
