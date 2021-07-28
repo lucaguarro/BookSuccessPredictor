@@ -21,7 +21,9 @@ class GoodreadsReader(object):
     def __iter__(self):
         for genre in self.genres:
             for category in ['failure', 'success']:
-                for fid in os.listdir(os.path.join(self.dirname, genre, category)):
+                # we sort here the list of files so that there is not a discrepancy between the local file system and the google colab file system
+                # thus ensuring that we can generate/use the cached features across platforms
+                for fid in sorted(os.listdir(os.path.join(self.dirname, genre, category))): 
                     fname = os.path.join(self.dirname, genre, category, fid)
 
                     if fid.startswith('.DS_Store') or not os.path.isfile(fname) or not fid.endswith('.txt'):
@@ -41,6 +43,7 @@ class GoodreadsReader(object):
                     #                                    fid.replace('.txt', '_st_parser.txt'))
                     # if not os.path.exists(stanford_parse_file):
                     #     raise OSError("Stanford parse file does not exit: {}".format(stanford_parse_file))
+                    # print('reader:', fid)
 
                     yield Book(book_path=fname, book_id=fid, genre=genre, success=success,
                                avg_rating=-1, sentic_file=None, # avg_rating = round(avg_rating, 3)

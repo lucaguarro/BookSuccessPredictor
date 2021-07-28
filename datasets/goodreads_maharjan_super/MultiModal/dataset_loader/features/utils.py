@@ -34,15 +34,18 @@ def fetch_features_vectorized(data_dir, features, corpus):
         target_labels_file = os.path.join(data_dir, feature, feature + '_labels.pkl')
         target_model_file = os.path.join(data_dir, feature, feature + '_model.pkl')
         if os.path.exists(target_file):
+            print("Using cached features")
             X_train, X_val, X_test = joblib.load(target_file)
             f_train_books, f_val_books, f_test_books = joblib.load(target_index_file)
 
             # Now these all should pass since we just re_ordered them to be the same
+            i = 0
             for x, x1 in zip(f_train_books, train_books):
                 if x != x1:
                     print("Book ids", x, x1)
-
+                    print("i:", i)
                     raise AssertionError("Train book order differ")
+                i += 1
 
             for x, x1 in zip(f_val_books, val_books):
                 if x != x1:
@@ -58,7 +61,7 @@ def fetch_features_vectorized(data_dir, features, corpus):
             Y_train, Y_val, Y_test = corpus.Y_train, corpus.Y_val, corpus.Y_test
 
         else:
-            print(feature)
+            print("Generating features")
             feature_name, vectorizer = create_feature(feature) # , train_books, val_books, test_books
 
             X_train, Y_train, X_val, Y_val, X_test, Y_test = extract_features_and_labels_by_split(feature, vectorizer, corpus, {'train_books': train_books, 'val_books': val_books, 'test_books': test_books})
