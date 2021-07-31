@@ -33,7 +33,7 @@ class MultimodalGoodreadsDataset():
         corpus = Corpus.from_splitfile(reader, os.path.join(dataset_base_dir, r'train_test_val_split_goodreads.yaml'), label_extractor)
 
         train_genres, val_genres, test_genres = self.get_genre_info(corpus)
-        X_train, Y_train, X_val, Y_val, X_test, Y_test = fetch_features_vectorized(cached_features_dir, features, corpus)
+        X_train, Y_train, X_val, Y_val, X_test, Y_test, f_lengths = fetch_features_vectorized(cached_features_dir, features, corpus)
 
         assert X_train.shape[0] == len(Y_train) == len(train_genres)
         assert X_val.shape[0] == len(Y_val) == len(val_genres)
@@ -42,6 +42,7 @@ class MultimodalGoodreadsDataset():
         self.train = MultimodalGoodreadsDatasetSplit(X_train, train_genres, Y_train)
         self.val = MultimodalGoodreadsDatasetSplit(X_val, val_genres, Y_val)
         self.test = MultimodalGoodreadsDatasetSplit(X_test, test_genres, Y_test)
+        self.f_lengths = f_lengths
 
 
 class MultimodalGoodreadsDatasetSplit(Dataset):

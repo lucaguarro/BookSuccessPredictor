@@ -78,7 +78,8 @@ def fetch_features_vectorized(data_dir, features, corpus):
         results = [extract_feature(feature, train_books, val_books, test_books) for feature in features]
         # open the results
         X_trains, Y_trains, X_vals, Y_vals, X_tests, Y_tests = zip(*results)
-
+        # check if we can get the sizes of the various features at this point
+        f_lengths = [f[0].shape[-1] if sparse.issparse(f) else len(f[0]) for f in X_trains]
         if any(sparse.issparse(f) for f in X_trains):
             X_trains = sparse.hstack(X_trains).tocsr()
             X_vals = sparse.hstack(X_vals).tocsr()
@@ -106,7 +107,7 @@ def fetch_features_vectorized(data_dir, features, corpus):
                         raise AssertionError("Y test's differ")
                         # assert np.allclose(np.array(Y_tests[i]), np.array(Y_tests[i - 1])), "Y test's differ"
 
-        return X_trains, Y_trains[0], X_vals, Y_vals[0], X_tests, Y_tests[0]
+        return X_trains, Y_trains[0], X_vals, Y_vals[0], X_tests, Y_tests[0], f_lengths
     else:
         return extract_feature(features)
 
