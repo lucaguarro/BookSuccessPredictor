@@ -105,7 +105,7 @@ def tokenize_w_overlap(example, tokenizer):
   }
 
 # When batched = True, we take in multiple examples
-def chunk_and_encode_examples_w_complete_sentences(examples):
+def chunk_and_encode_examples_w_complete_sentences(examples, tokenizer):
   mega_dict = None
   if goodreads_guarro:
     mega_dict = {'attention_mask': [], 'input_ids': [], 'token_type_ids': []}
@@ -123,7 +123,7 @@ def chunk_and_encode_examples_w_complete_sentences(examples):
   return mega_dict
 
 # When batched = True, we take in multiple examples
-def chunk_and_encode_examples_w_overlap(examples):
+def chunk_and_encode_examples_w_overlap(examples, tokenizer):
   mega_dict = {'attention_mask': [], 'genre': [], 'input_ids': [], 'success_label': [], 'token_type_ids': [], 'book_title': []}
   for i in range(len(examples['text'])):
     book_sample = {'text': examples['text'][i], 'genre': examples['genre'][i], 'success_label': examples['success_label'][i], 'book_title':examples['book_title'][i]}

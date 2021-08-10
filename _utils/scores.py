@@ -1,4 +1,9 @@
 import matplotlib
+import numpy as np
+from scipy.special import softmax
+import math
+from sklearn.metrics import f1_score, precision_recall_curve, roc_auc_score, roc_curve
+import matplotlib.pyplot as plt
 
 class ModelScorer:
   def __init__(self, trainer, segmented_dataset, for_multitask = False):

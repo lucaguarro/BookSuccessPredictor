@@ -41,8 +41,9 @@ if IN_COLAB:
 else:
     config.read(r'C:\Users\lucag\Google Drive\Thesis\BookSuccessPredictor\config_local.ini')
 
-goodreads_maharjan_path = Path(config['Datasets']['goodreads_maharjan_path'])
-yaml_data = goodreads_maharjan_path / 'train_test_val_split_goodreads.yaml'
+goodreads_maharjan_path = Path(config['Datasets']['nered_goodreads_maharjan_path'])
+yaml_file_name = config['Datasets']['yaml_file_name']
+yaml_data = goodreads_maharjan_path / yaml_file_name
 dataset_base = goodreads_maharjan_path / 'txt'
 
 def get_files_in_folders(folders):
@@ -118,7 +119,7 @@ class GoodReadsPracticeDataset(datasets.GeneratorBasedBuilder):
                 # These kwargs will be passed to _generate_examples
                 gen_kwargs={
                     "filepath": yaml_data,
-                    "split": "Train",
+                    "split": "train",
                 },
             ),
             datasets.SplitGenerator(
@@ -126,7 +127,7 @@ class GoodReadsPracticeDataset(datasets.GeneratorBasedBuilder):
                 # These kwargs will be passed to _generate_examples
                 gen_kwargs={
                     "filepath": yaml_data,
-                    "split": "Val",
+                    "split": "val",
                 },
             ),
             datasets.SplitGenerator(
@@ -134,7 +135,7 @@ class GoodReadsPracticeDataset(datasets.GeneratorBasedBuilder):
                 # These kwargs will be passed to _generate_examples
                 gen_kwargs={
                     "filepath": yaml_data,
-                    "split": "Test",
+                    "split": "test",
                 },
             ),
         ]
