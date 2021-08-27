@@ -59,21 +59,21 @@ class Corpus:
         with open(split_file, 'r') as stream:
             try:
                 data = yaml.load(stream)
-                print ("Total test instances: {}, validation instances: {}, and Training instances: {}".format(len(data['Test']), len(data['Val']), len(data['Train'])))
+                print ("Total test instances: {}, validation instances: {}, and Training instances: {}".format(len(data['test']), len(data['val']), len(data['train'])))
                 X, Y = kls.X, kls.Y
                 X_train, Y_train, X_val, Y_val, X_test, Y_test = [],[],[],[],[],[]
                 books_added=set()
                 for x, y in zip(X, Y):
                     if x.book_id not in books_added:
-                        if x.book_id in data['Test']:
+                        if x.book_id in data['test']:
                             X_test.append(x)
                             Y_test.append(y)
                             books_added.add(x.book_id)
-                        elif x.book_id in data['Val']:
+                        elif x.book_id in data['val']:
                             X_val.append(x)
                             Y_val.append(y)
                             books_added.add(x.book_id)
-                        elif x.book_id in data['Train']:
+                        elif x.book_id in data['train']:
                             X_train.append(x)
                             Y_train.append(y)
                             books_added.add(x.book_id)

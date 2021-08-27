@@ -30,7 +30,8 @@ class MultimodalGoodreadsDataset():
         reader = GoodreadsReader(dataset_base_dir)
         
         # r'G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\raw_text\train_test_val_split_goodreads.yaml'
-        corpus = Corpus.from_splitfile(reader, os.path.join(dataset_base_dir, r'train_test_val_split_goodreads.yaml'), label_extractor)
+        print("Path to yaml:", os.path.join(dataset_base_dir, r'train_test_val_80_20_split_goodreads.yaml'))
+        corpus = Corpus.from_splitfile(reader, os.path.join(dataset_base_dir, r'train_test_val_80_20_split_goodreads.yaml'), label_extractor)
 
         train_genres, val_genres, test_genres = self.get_genre_info(corpus)
         X_train, Y_train, X_val, Y_val, X_test, Y_test, f_lengths = fetch_features_vectorized(cached_features_dir, features, corpus)

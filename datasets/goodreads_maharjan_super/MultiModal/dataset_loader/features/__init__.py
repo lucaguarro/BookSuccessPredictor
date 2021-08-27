@@ -193,7 +193,6 @@ def create_feature(feature_names):
         if isinstance(feature_names, list):
             return ("-".join(feature_names), FeatureUnion([(f, get_feature(f)) for f in feature_names]))
         else:
-
             return (feature_names, get_feature(feature_names))
     except Exception as e:
         print (e)

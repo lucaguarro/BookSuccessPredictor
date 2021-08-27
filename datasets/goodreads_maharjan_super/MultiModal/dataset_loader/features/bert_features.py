@@ -26,11 +26,20 @@ class BertFeatures():
         def reorder_list(curlist, permutations):
             new_list = [0] * len(curlist)
             for i in range(len(curlist)):
-                new_list[permutations[i]] = curlist[i]
+                new_list[permutations[i]] = curlist[i] # get list out of range error here
             return new_list
 
         X_train, X_val, X_test = self.avg_pld_outs_hf_ds['train']['meaned_pooled_output'], self.avg_pld_outs_hf_ds['validation']['meaned_pooled_output'], self.avg_pld_outs_hf_ds['test']['meaned_pooled_output']
         Y_train, Y_val, Y_test = self.avg_pld_outs_hf_ds['train']['success_label'], self.avg_pld_outs_hf_ds['validation']['success_label'], self.avg_pld_outs_hf_ds['test']['success_label']
+
+        # set1 = set(book_id_ordering['val_books'])
+        # set2 = set(self.avg_pld_outs_hf_ds['validation']['book_title'])
+
+        # missing = list(sorted(set1 - set2))
+        # added = list(sorted(set2 - set1))
+
+        # print('missing:', missing)
+        # print('added:', added)
 
         train_perms = get_permutations(book_id_ordering['train_books'], self.avg_pld_outs_hf_ds['train']['book_title'])
         val_perms = get_permutations(book_id_ordering['val_books'], self.avg_pld_outs_hf_ds['validation']['book_title'])
