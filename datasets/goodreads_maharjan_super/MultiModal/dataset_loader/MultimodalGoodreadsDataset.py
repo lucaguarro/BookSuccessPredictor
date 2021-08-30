@@ -8,7 +8,6 @@ import os
 def label_extractor(book_data):
     return book_data.success
 
-
 class MultimodalGoodreadsDataset():
 
     def one_hot(self, arr):
