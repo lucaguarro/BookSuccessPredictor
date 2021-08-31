@@ -21,9 +21,7 @@ class MultimodalGoodreadsDataset():
         test_genres = self.one_hot([corpus.X_test[i].genre for i in range(len(corpus.X_test))])
         return train_genres, val_genres, test_genres
 
-    def __init__(self, dataset_base_dir, cached_features_dir):
-        features = ["char_5_gram", "bert_features"]
-
+    def __init__(self, features=["char_5_gram", "bert_features"], dataset_base_dir, cached_features_dir):
         # G:\My Drive\Thesis\BookSuccessPredictor\datasets\goodreads_maharjan_super\raw_preprocessed\goodreads_maharjan_trimmed
         # r'G:\My Drive\Thesis\UsefulRelatedProjects\curr_sota\data\raw_text'
         reader = GoodreadsReader(dataset_base_dir)
