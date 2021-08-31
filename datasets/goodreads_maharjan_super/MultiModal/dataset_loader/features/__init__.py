@@ -8,7 +8,7 @@ from . import lexical
 from . import syntactic
 from . import word_embeddings
 # from . import phonetic
-# from . import readability
+from . import readability
 from . import sentiments
 from . import writing_density
 from . import dumped_features
@@ -103,8 +103,8 @@ def get_feature(f_name):
 
 
         # readability
-        #readability=readability.ReadabilityIndicesFeatures(),
-        # readability_scaled=Pipeline([('rd',readability.ReadabilityIndicesFeatures()),('scaler',StandardScaler(with_mean=False))]),
+        readability=readability.ReadabilityIndicesFeatures(),
+        readability_scaled=Pipeline([('rd',readability.ReadabilityIndicesFeatures()),('scaler',StandardScaler(with_mean=False))]),
 
         concepts=sentiments.SenticConceptsTfidfVectorizer(ngram_range=(1, 1), tokenizer=str.split, analyzer="word",
                                                           lowercase=True, binary=True, use_idf=False),
