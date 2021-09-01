@@ -4,6 +4,9 @@ from sklearn.pipeline import FeatureUnion, Pipeline
 import nltk
 from sklearn.preprocessing import StandardScaler
 
+from . import syllables_en
+from . import syllables_no
+
 from . import lexical
 from . import syntactic
 from . import word_embeddings
@@ -14,6 +17,7 @@ from . import writing_density
 from . import dumped_features
 # from . import book2vec
 from . import bert_features
+
 # from manage import app
 
 
