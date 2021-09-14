@@ -29,9 +29,12 @@ except:
 config = configparser.ConfigParser()
 
 if IN_COLAB:
-    config.read(r'/content/drive/MyDrive/Thesis/BookSuccessPredictor/config.ini')
+    config.read(r'/content/drive/MyDrive/Thesis/BookSuccessPredictor/config_dupe.ini')
 else:
     config.read(r'C:\Users\lucag\Google Drive\Thesis\BookSuccessPredictor\config_local.ini')
+
+preprocess_dir = 'nered' if eval(config['Model']['use_ner']) else 'trimmed'
+print('Using preprocess dir:', preprocess_dir)
 
 basepath = pathlib.Path(config['Datasets']['goodreads_guarro_path'])
 
@@ -107,7 +110,7 @@ class GoodReadsPracticeDataset(datasets.GeneratorBasedBuilder):
         counter_id = 0
         while (record):
             file_path = basepath / pathlib.PureWindowsPath(record[0]).as_posix()
-            nered_path = file_path.parent / 'preprocessed' / 'nered' / file_path.name
+            nered_path = file_path.parent / 'preprocessed' / preprocess_dir / file_path.name
 
             data = None
             try:

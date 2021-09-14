@@ -34,17 +34,17 @@ class GoodreadsReader(object):
                         success = 1
                     # avg_rating = self.book_df[self.book_df['FILENAME'] == fid]['AVG_RATING_2016'].values[0]
 
-                    # sentic_file = os.path.join(self.dirname, genre, 'sentic',
-                    #                            fid.replace('.txt', '_st_parser.txt.json'))  # sentic  st_parser
-                    # if not os.path.exists(sentic_file):
-                    #     raise OSError("Sentic file does not exit: {}".format(sentic_file))
+                    sentic_file = os.path.join(self.dirname, genre, 'sentic',
+                                               fid.replace('.txt', '_st_parser.txt.json'))  # sentic  st_parser
+                    if not os.path.exists(sentic_file):
+                        raise OSError("Sentic file does not exit: {}".format(sentic_file))
 
-                    # stanford_parse_file = os.path.join(self.dirname, genre, 'st_parser',
-                    #                                    fid.replace('.txt', '_st_parser.txt'))
-                    # if not os.path.exists(stanford_parse_file):
-                    #     raise OSError("Stanford parse file does not exit: {}".format(stanford_parse_file))
+                    stanford_parse_file = os.path.join(self.dirname, genre, 'st_parser',
+                                                       fid.replace('.txt', '_st_parser.txt'))
+                    if not os.path.exists(stanford_parse_file):
+                        raise OSError("Stanford parse file does not exit: {}".format(stanford_parse_file))
                     # print('reader:', fid)
 
                     yield Book(book_path=fname, book_id=fid, genre=genre, success=success,
-                               avg_rating=-1, sentic_file=None, # avg_rating = round(avg_rating, 3)
-                               stanford_parse_file=None)
+                               avg_rating=-1, sentic_file=sentic_file, # avg_rating = round(avg_rating, 3)
+                               stanford_parse_file=stanford_parse_file)
