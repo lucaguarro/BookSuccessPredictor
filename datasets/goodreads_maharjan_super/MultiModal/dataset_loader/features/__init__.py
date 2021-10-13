@@ -130,18 +130,18 @@ def get_feature(f_name):
 
         # #book2Vec dmc', 'dbow', 'dmm', 'dbow_dmm', 'dbow_dmc'
 
-        # book2vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK2VEC
-        # book2vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK2VEC
-        # book2vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK2VEC
-        # book2vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK2VEC
-        # book2vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK2VEC
+        book2vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK2VEC
+        book2vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK2VEC
+        book2vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK2VEC
+        book2vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK2VEC
+        book2vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK2VEC
 
-        # #book1002vec
-        # book10002vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK10002VEC
-        # book10002vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK10002VEC
-        # book10002vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK10002VEC
-        # book10002vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK10002VEC
-        # book10002vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK10002VEC
+        #book1002vec
+        book10002vec_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dmc'), # app.BOOK10002VEC
+        book10002vec_dbow=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow'), # app.BOOK10002VEC
+        book10002vec_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dmm'), # app.BOOK10002VEC
+        book10002vec_dbow_dmm=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmm'), # app.BOOK10002VEC
+        book10002vec_dbow_dmc=book2vec.Book2VecFeatures(model_dir=None,model_name='dbow_dmc'), # app.BOOK10002VEC
 
 
         # # phonetics

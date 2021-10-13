@@ -19,3 +19,9 @@ __pycache__
 /DataAcquisition/guarro_goodreads/scraper/Log/*
 /DataAcquisition/guarro_goodreads/scraper/vpns.json
 *.db
+ModelTraining/Copy of TransformerPreTraining.ipynb
+ModelTraining/RoBERTaSample.ipynb
+ModelTraining/TransformerXLSample.ipynb
+ModelTraining/Untitled
+ModelTraining/Untitled0.ipynb
+ModelTraining/interleave_dataset.ipynb

@@ -6,7 +6,6 @@ import os
 
 __all__ = ['Book2VecFeatures']
 
-
 class Book2VecFeatures(BaseEstimator, TransformerMixin):
     def __init__(self, model_dir=None, model_name=None, dtype=np.float32):
         self.model_dir = model_dir
@@ -21,7 +20,7 @@ class Book2VecFeatures(BaseEstimator, TransformerMixin):
             feature_vec = self.model_.docvecs[book2vec_id]
         except KeyError as e:
             print (e)
-            print("Could not fine doc vec for {}".format(book2vec_id))
+            print("Could not find doc vec for {}".format(book2vec_id))
             feature_vec=np.zeros((self.num_features_,), dtype=self.dtype)
 
         return feature_vec

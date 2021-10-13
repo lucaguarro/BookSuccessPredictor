@@ -86,9 +86,9 @@ def tokenize_complete_sentences(example, tokenizer, cut_off = 512, chunk_limit =
     # print(len(dictOfTokenizedChunks['input_ids']))
   return dictOfTokenizedChunks
 
-def tokenize_w_overlap(example, tokenizer, stride):
+def tokenize_w_overlap(example, tokenizer, stride, max_length = 512):
   data_tokenize = tokenizer(example['text'], 
-                  max_length = 512,
+                  max_length = max_length,
                   stride=stride,
                   add_special_tokens=True,
                   return_attention_mask=True,
@@ -123,11 +123,12 @@ def chunk_and_encode_examples_w_complete_sentences(examples, tokenizer):
   return mega_dict
 
 # When batched = True, we take in multiple examples
-def chunk_and_encode_examples_w_overlap(examples, tokenizer, stride=50):
+def chunk_and_encode_examples_w_overlap(examples, tokenizer, stride=50, max_len=512):
+  print("tokenizing with max length: {} and stride: {}".format(max_len, stride))
   mega_dict = {'attention_mask': [], 'genre': [], 'input_ids': [], 'success_label': [], 'token_type_ids': [], 'book_title': []}
   for i in range(len(examples['text'])):
     book_sample = {'text': examples['text'][i], 'genre': examples['genre'][i], 'success_label': examples['success_label'][i], 'book_title':examples['book_title'][i]}
-    dictOfTokenizedChunks = tokenize_w_overlap(book_sample, tokenizer, stride)
+    dictOfTokenizedChunks = tokenize_w_overlap(book_sample, tokenizer, stride, max_len)
     for key, value in dictOfTokenizedChunks.items():
       mega_dict[key].extend(value)
   return mega_dict

@@ -29,7 +29,7 @@ except:
 config = configparser.ConfigParser()
 
 if IN_COLAB:
-    config.read(r'/content/drive/MyDrive/Thesis/BookSuccessPredictor/config_dupe.ini')
+    config.read(r'/content/drive/MyDrive/Thesis/BookSuccessPredictor/config.ini')
 else:
     config.read(r'C:\Users\lucag\Google Drive\Thesis\BookSuccessPredictor\config_local.ini')
 

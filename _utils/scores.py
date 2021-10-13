@@ -2,7 +2,7 @@ import matplotlib
 import numpy as np
 from scipy.special import softmax
 import math
-from sklearn.metrics import f1_score, precision_recall_curve, roc_auc_score, roc_curve, precision_recall_fscore_support
+from sklearn.metrics import f1_score, precision_recall_curve, roc_auc_score, roc_curve, precision_recall_fscore_support, accuracy_score
 precision_recall_fscore_support
 import matplotlib.pyplot as plt
 
@@ -80,9 +80,10 @@ class ModelScorer:
       f1_res = f1_score(y_true, y_pred, average = 'weighted')
       f1_scores.append(f1_res)
     max_f1 = max(f1_scores)
+    idx_for_50 = int(round((0.50 - l_th) / 0.01))
     max_f1_index = f1_scores.index(max_f1)
     self.validated_threshold = thresholds[max_f1_index]
-    f1_scores_and_thresholds = {'thresholds': thresholds, 'f1_scores': f1_scores, 'max_f1_index': max_f1_index}
+    f1_scores_and_thresholds = {'thresholds': thresholds, 'f1_scores': f1_scores, 'max_f1_index': max_f1_index, '50_index': idx_for_50}
     return f1_scores_and_thresholds
 
   def get_book_f1_scores(self):
@@ -129,8 +130,10 @@ class ModelScorer:
   def plot_f1_scores(self, f1_scores_and_thresholds):
     matplotlib.pyplot.plot(f1_scores_and_thresholds['thresholds'], f1_scores_and_thresholds['f1_scores'])
     max_f1_index = f1_scores_and_thresholds['max_f1_index']
+    idx_for_50 = f1_scores_and_thresholds['50_index']
     print("*****SCORE ON VALIDATION SET*****")
-    print("The max weighted f1 score is {} with a threshold of {} \n".format(f1_scores_and_thresholds['f1_scores'][max_f1_index], f1_scores_and_thresholds['thresholds'][max_f1_index]))
+    print("The weighted f1 score is {} using a threshold of {} \n".format(f1_scores_and_thresholds['f1_scores'][max_f1_index], f1_scores_and_thresholds['thresholds'][max_f1_index]))
+    print("The max weighted f1 score is {} with a threshold of {} \n".format(f1_scores_and_thresholds['f1_scores'][idx_for_50], f1_scores_and_thresholds['thresholds'][idx_for_50]))
 
   def get_counts_of_classes(self, model_predictions):
     successful_prob = softmax(model_predictions.predictions, axis=1)[:,1]
